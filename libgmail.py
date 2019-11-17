@@ -207,6 +207,19 @@ class Gmail:
             result.append(matchD)
         return result
 
+    def add_label(self, emailid_list , label):
+        if not isinstance(emailid_list, list):
+            emailid_list = [emailid_list]
+        self.__logger.debug('Deleting %s mails' % (len(emailid_list)))
+        try:
+            emailid_list = ','.join(emailid_list)
+            result = self.conn.store(emailid_list, '+X-GM-LABELS', label)
+            self.__logger.debug(f'Results of Add Label {result}')
+        except Exception as e:
+            self.__logger.error(e)
+
+
+
     def delete(self, emailid_list, expunge=True):
         """
         Delete emails based on the number
